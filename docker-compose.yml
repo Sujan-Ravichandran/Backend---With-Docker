@@ -1,0 +1,35 @@
+services:
+
+  userservice:
+    build:
+      context: ./services/UserService
+    ports:
+      - "5135:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  doctorservice:
+    build:
+      context: ./services/DoctorService
+    ports:
+      - "5056:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  appointmentservice:
+    build:
+      context: ./services/AppointmentService
+    ports:
+      - "5006:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  apigateway:
+    build:
+      context: ./services/ApiGateway
+    ports:
+      - "5298:8080"
+    depends_on:
+      - userservice
+      - doctorservice
+      - appointmentservice
